@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram Comment Filter</title>
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css"> <!-- Link al file CSS -->
 </head>
 <body>
     <div class="a">
@@ -16,6 +12,9 @@
         <br>
         <a href="https://core.telegram.org/widgets/discussion">https://core.telegram.org/widgets/discussion</a>
     </div>
+
+    <input type="text" id="filterInput" placeholder="Cerca nei commenti...">
+    <button id="filterButton">Filtra</button>
     
     <div class="c">
         <h2>Meteo in Piemonte - Segnalazioni meteo in Piemonte</h2>
@@ -24,46 +23,7 @@
                 data-comments-limit="15" data-width="100%">
         </script>
     </div>
-    
-    <input type="text" id="filterInput" placeholder="Cerca nei commenti...">
-    <button onclick="filterComments()">Filtra</button>
 
-    <script>
-        // Funzione per filtrare i commenti
-        function filterComments() {
-            const keyword = document.getElementById("filterInput").value.toLowerCase(); // Ottiene la parola chiave inserita
-            const comments = document.querySelectorAll('.telegram-discussion__message'); // Seleziona i commenti caricati dal widget
-
-            comments.forEach(comment => {
-                const text = comment.textContent.toLowerCase(); // Ottiene il testo del commento
-                if (text.includes(keyword)) {
-                    comment.classList.remove('hidden'); // Mostra i commenti che contengono la parola chiave
-                } else {
-                    comment.classList.add('hidden'); // Nasconde i commenti che non contengono la parola chiave
-                }
-            });
-        }
-
-        // Osservatore per il caricamento dinamico dei commenti nel widget
-        const targetNode = document.querySelector('.c'); // Seleziona il container che contiene i commenti
-        const config = { childList: true, subtree: true }; // Configurazione per osservare il DOM
-
-        // Callback che viene eseguita quando ci sono cambiamenti nel DOM
-        const callback = function(mutationsList, observer) {
-            for (let mutation of mutationsList) {
-                if (mutation.type === 'childList') {
-                    // Quando i commenti sono stati caricati, applica il filtro
-                    filterComments();
-                }
-            }
-        };
-
-        // Crea un MutationObserver per monitorare i cambiamenti
-        const observer = new MutationObserver(callback);
-
-        // Avvia l'osservazione sul container dei commenti
-        observer.observe(targetNode, config);
-
-    </script>
+    <script src="script.js"></script> <!-- Link al file JS -->
 </body>
 </html>
